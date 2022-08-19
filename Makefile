@@ -22,6 +22,7 @@ init:
 	@make up
 	@make install-symfony
 	@make composer-install
+	@make clear-cache
 
 build:
 	UID=${UID} PHP_CONTAINER_NAME=${PHP_CONTAINER_NAME} NGINX_CONTAINER_NAME=${NGINX_CONTAINER_NAME} SYMFONY_VERSION=${SYMFONY_VERSION} PHP_VERSION=${PHP_VERSION} NGINX_VERSION=${NGINX_VERSION} XDEBUG_ENV=${XDEBUG_ENV} docker-compose build --pull
@@ -58,3 +59,6 @@ routes:
 test:
 	@U_ID=${UID} docker exec ${PHP_CONTAINER_NAME} php bin/phpunit --testdox --stop-on-failure --colors=always
 #   ej: php bin/phpunit --testdox --stop-on-failure --colors=always ./tests/Apps/Api/Policy/PolicyStoreControllerTest.php
+
+clear-cache:
+	@U_ID=${UID} docker exec ${PHP_CONTAINER_NAME} php bin/console cache:clear
