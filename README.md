@@ -28,7 +28,7 @@ La solución del ejercicio debe ser enviada en un repositorio de GitHub, GitLab 
 3 - Una vez clonado el repositorio en local, se deberae acceder al directorio donde se clono el proyecto 
 y jecutar el siguiente comando.
 
-    $ make up
+    $ make init
 
 Cabe aclarar que para realizar este paso se debe tener instalado Docker en la maquina,
 como asi tambien el ejecutable del comando "make"

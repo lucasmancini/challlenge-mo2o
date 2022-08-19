@@ -11,9 +11,9 @@ RUN apt-get update -y && \
     apt-get install libpng-dev -y && \
     apt-get install libldap2-dev -y && \
     apt-get install libicu-dev -y && \
-    apt-get install zip -y &&\
-    apt-get install libzip-dev -y &&\
-    apt-get install zip -y \
+    apt-get install zip -y && \
+    apt-get install libzip-dev -y && \
+    apt-get install zip -y
 #    build-essential \
 #    libjpeg62-turbo-dev \
 #    libfreetype6-dev \
@@ -47,7 +47,10 @@ fi;
 #SYMFONY CLI
 #RUN echo "export COLUMNS=300" >> /home/appuser/.bashrc
 #RUN echo "alias sf='/usr/local/bin/php /var/www/bin/console'" >> /home/appuser/.bashrc
-RUN curl -sS https://get.symfony.com/cli/installer | bash && mv /root/.symfony/bin/symfony /usr/local/bin/symfony
+RUN curl -sS https://get.symfony.com/cli/installer | bash && mv /root/.symfony5/bin/symfony /usr/local/bin/symfony
+
+
+#mv "${cwd}/${folder}/data"/* "${cwd}/${folder}" \
 
 #INSTALL SYMFONY
 RUN mkdir -p /var/www
