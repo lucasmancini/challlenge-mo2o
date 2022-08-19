@@ -1,0 +1,15 @@
+search:
+    methods:
+        - GET
+    path: /search/food/{food}
+    controller: App\Controller\Search\SearchController
+    options:
+        expose: true
+
+details:
+    methods:
+        - GET
+    path: /search/food/{food}/details
+    controller: App\Controller\Search\DetailsController
+    options:
+        expose: true

@@ -1,0 +1,10 @@
+- name: 'FINANCIERO'
+  type: 'title'
+- name: 'Resumen mensual'
+  type: 'submenu'
+  icon: 'la la-angle-double-right'
+  submenu:
+        - name: 'Listar'
+          route: ['monthlySummary.list',[], true]
+          icon: 'la la-angle-double-right'
+          type: 'element'

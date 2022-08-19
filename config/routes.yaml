@@ -1,0 +1,9 @@
+#########################################################################################
+
+api_v1:
+  # loads routes from the YAML or XML files found in that directory
+  resource: './routes/search/v1/'
+  type: directory
+  prefix: /api/v1
+
+#########################################################################################3
