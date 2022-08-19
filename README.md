@@ -36,8 +36,13 @@ como asi tambien el ejecutable del comando "make"
 4 - Para probar los servicios se debera ingresar a las siguientes url's desde un explorador o desde un programa para
 hacer llamadas a apis como Postman.
 
-    1 - GET /api/v1/search/food/{param}
-    
-    2 - GET /api/v1/search/food/{param}/details
+    Url base : http://localhost
 
-    Donde {param} es el valor a enviar como filtro para la llamada a dichos endpoints, por ejemplo "fish", "honey" etc..
+    Endpoints:
+        
+    GET /api/v1/search/food/{param}
+    
+    GET /api/v1/search/food/{param}/details
+
+    Donde {param} es el valor a enviar como filtro para la llamada a dichos endpoints, 
+    por ejemplo "fish", "honey" etc..
