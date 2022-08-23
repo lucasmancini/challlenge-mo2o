@@ -42,7 +42,10 @@ hacer llamadas a apis como Postman.
         
     GET /api/v1/search/food/{param}
     
-    GET /api/v1/search/food/{param}/details
+    GET /api/v1/search/details/{id}
 
     Donde {param} es el valor a enviar como filtro para la llamada a dichos endpoints, 
-    por ejemplo "fish", "honey" etc..
+    por ejemplo "fish", "honey" etc.. 
+
+    Donde {id} es el valor a enviar como parametro obligatorio para devolvernos el detalle de la receta. 
+

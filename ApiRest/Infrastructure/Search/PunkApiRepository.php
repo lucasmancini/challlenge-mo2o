@@ -8,30 +8,22 @@ use JsonException;
 use Psr\Http\Client\ClientExceptionInterface;
 use Psr\Http\Client\ClientInterface;
 use Psr\Http\Message\RequestFactoryInterface;
-use Psr\Http\Message\RequestInterface;
-use Psr\Http\Message\ResponseInterface;
-use Psr\Http\Message\StreamFactoryInterface;
 
 class PunkApiRepository implements SearchRepositoryInterface
 {
     const HTTP_OK = 200;
-    const METHOD_POST = 'POST';
-    const METHOD_PUT = 'PUT';
     const WHITE_LIST_SEARCH = array( 'id', 'name', 'description');
     const WHITE_LIST_DETAILS = array( 'id', 'name', 'description', 'image_url', 'tagline', 'first_brewed');
 
     private RequestFactoryInterface $requestFactory;
-    private StreamFactoryInterface $streamFactory;
     private ClientInterface $client;
 
     public function __construct(
         RequestFactoryInterface $requestFactory,
-        StreamFactoryInterface $streamFactory,
         ClientInterface $client
     )
     {
         $this->requestFactory = $requestFactory;
-        $this->streamFactory = $streamFactory;
         $this->client = $client;
     }
 
@@ -39,11 +31,14 @@ class PunkApiRepository implements SearchRepositoryInterface
      * @throws ClientExceptionInterface
      * @throws JsonException
      */
-    public function search(string $food, ?bool $withDetails ): array
+    public function search(string $food ): array
     {
         $url = sprintf('%s?food=%s', 'https://api.punkapi.com/v2/beers', $food);
 
-        $response = $this->client->sendRequest($this->createRequest($url, 'GET', ['id', 'name', 'description']));
+        $response = $this->client->sendRequest( $this->requestFactory
+            ->createRequest('GET', $url)
+            ->withHeader('Content-Type', 'application/json')
+        );
 
         if ( self::HTTP_OK !== $response->getStatusCode()) {
             throw new SearchNotFound($response->getStatusCode(), $response->getReasonPhrase());
@@ -51,8 +46,8 @@ class PunkApiRepository implements SearchRepositoryInterface
 
         $array =  json_decode($response->getBody()->getContents(), true);
 
-        $output = array_map( function ($element) use ($withDetails) {
-                return $this->fieldsAllowed($element, $withDetails? self::WHITE_LIST_DETAILS : self::WHITE_LIST_SEARCH);
+        $output = array_map( function ($element) {
+            return array_intersect_key( $element, array_flip( self::WHITE_LIST_SEARCH ) );
             },
             $array
         );
@@ -60,20 +55,27 @@ class PunkApiRepository implements SearchRepositoryInterface
         return $output;
     }
 
-    private function fieldsAllowed(array $element, array $white_list):array
+    public function details(int $id): array
     {
-        return array_intersect_key( $element, array_flip( $white_list ) );
-    }
+        $url = sprintf('%s/%s', 'https://api.punkapi.com/v2/beers', $id);
 
-    /**
-     * @throws JsonException
-     */
-    protected function createRequest(string $url, string $method, array $content = null): RequestInterface
-    {
-        return $this->requestFactory
-            ->createRequest($method, $url)
-            ->withHeader('Content-Type', 'application/json')
-            ;
-    }
+        $response = $this->client->sendRequest( $this->requestFactory
+                ->createRequest('GET', $url)
+                ->withHeader('Content-Type', 'application/json')
+        );
 
+        if ( self::HTTP_OK !== $response->getStatusCode()) {
+            throw new SearchNotFound($response->getStatusCode(), $response->getReasonPhrase());
+        }
+
+        $array =  json_decode($response->getBody()->getContents(), true);
+
+        $output = array_map( function ($element) {
+            return array_intersect_key( $element, array_flip( self::WHITE_LIST_DETAILS ) );
+            },
+            $array
+        );
+
+        return $output;
+    }
 }

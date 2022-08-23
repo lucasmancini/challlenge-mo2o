@@ -3,28 +3,27 @@
 namespace App\Controller\Search;
 
 use App\Controller\Controller;
-use ApiRest\Application\Query\Search\SearchQuery;
-use ApiRest\Application\Query\Search\SearchQueryHandler;
+use ApiRest\Application\Query\Show\ShowQuery;
+use ApiRest\Application\Query\Show\ShowQueryHandler;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 
 class DetailsController extends Controller
 {
 
-    private SearchQueryHandler $handler;
+    private ShowQueryHandler $handler;
 
-    public function __construct(SearchQueryHandler $handler)
+    public function __construct(ShowQueryHandler $handler)
     {
         $this->handler = $handler;
     }
 
     public function __invoke(Request $request): JsonResponse
     {
-        $queryParam = $request->get('food','');
+        $id = $request->get('id');
 
-        $response = $this->handler->handle(New SearchQuery(
-            $queryParam,
-            true
+        $response = $this->handler->handle(New ShowQuery(
+            $id
         ));
 
         return new JsonResponse(
