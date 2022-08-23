@@ -1,10 +1,10 @@
 <?php
 
-namespace ApiRest\Application\Query\Search;
+namespace ApiRest\Application\Query\Show;
 
 use ApiRest\Domain\Service\Search\SearchRepositoryInterface;
 
-class SearchQueryHandler
+class ShowQueryHandler
 {
 
     private SearchRepositoryInterface $searchRepository;
@@ -16,13 +16,13 @@ class SearchQueryHandler
         $this->searchRepository = $searchRepository;
     }
 
-    public function handle(SearchQuery $query):SearchResponse
+    public function handle(ShowQuery $query):ShowResponse
     {
-        $queryParam = $query->queryParam();
+        $id = $query->id();
 
-        $response = $this->searchRepository->search( $queryParam );
+        $response = $this->searchRepository->details( $id );
 
-        return new SearchResponse($response);
+        return new ShowResponse($response);
     }
 
 }

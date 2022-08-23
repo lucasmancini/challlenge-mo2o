@@ -9,7 +9,7 @@ search:
 details:
     methods:
         - GET
-    path: /search/food/{food}/details
+    path: /search/details/{id}/
     controller: App\Controller\Search\DetailsController
     options:
         expose: true
